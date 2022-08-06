@@ -8,7 +8,7 @@ module.exports.IndexAPI = (app) => {
 
   router.get("/", (req, res) => {
     const menu = {
-      personalBudget : `http://${req.headers.host}/api/personal-budget`
+      personalBudget : `http://${req.headers.host}/api/v1/personal-budget`
     };
     Response.success(res, 200, "Personal Budget", menu);
   });

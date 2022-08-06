@@ -1,17 +1,63 @@
+const debug = require('debug')('app:module-controller');
+
+const { Connection } = require('../database/database');
+const { Response } = require('../common/response')
+
 module.exports.PersonalBudgetController = {
-  getAllBudget : (req, res) => {
-    res.send('All budget');
+  getAllBudget: async (req, res) => {
+    try {
+      await Connection.connection.query("SELECT * FROM budget", (err, result) => {
+        if (err) throw err
+        Response.success(res, 200, 'Personal budget list', result)
+      });
+    }
+    catch (error) {
+      debug(error);
+      Response.error(error)
+    }
   },
-  getOneBudget : (req, res) => {
-    res.send('One budget');
+  getOneBudget: async (req, res) => {
+    try {
+      await Connection.connection.query("SELECT * FROM budget WHERE id = ?", [req.params.id], (err, result) => {
+        if (err) throw err
+        Response.success(res, 200, 'Personal budget list', result)
+      });
+    } catch (error) {
+      debug(error);
+      Response.error(error)
+    }
   },
-  createBudget : (req, res) => {
-    res.send('create budget');
+  createBudget: async (req, res) => {
+    try {
+      await Connection.connection.query('INSERT INTO budget SET ?', [req.body], (err, result) => {
+        if (err) throw err
+        Response.success(res, 201, 'Personal budget add', result.insertId)
+      });
+    } catch (error) {
+      debug(error);
+      Response.error(error)
+    }
   },
-  deleteBudget : (req, res) => {
-    res.send('delete budget');
+  deleteBudget: async (req, res) => {
+    try {
+      await Connection.connection.query('DELETE FROM budget WHERE id = ?', [req.params.id], (err, result) => {
+        if (err) throw err
+        Response.success(res, 200, 'Personal budget delete', result.affectedRows)
+      });
+    } catch (error) {
+      debug(error);
+      Response.error(error)
+    }
   },
-  updateBudget : (req, res) => {
-    res.send('update budget');
+  updateBudget: async (req, res) => {
+    try {
+      await Connection.connection.query('UPDATE budget SET ? WHERE id = ?', [req.body, req.params.id], (err, result) => {
+        if (err) throw err
+        Response.success(res, 201, 'Personal budget update', result.changedRows)
+      });
+    } catch (error) {
+      debug(error);
+      Response.error(error)
+    }
   },
 };
