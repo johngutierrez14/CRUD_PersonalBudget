@@ -1,0 +1,8 @@
+Archivos a eliminar
+setup tests
+reportwebvitals
+apptest
+public>logo
+
+dependencias a instalar
+npm i react-router-dom

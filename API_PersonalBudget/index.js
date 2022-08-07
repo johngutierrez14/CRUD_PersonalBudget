@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const debug = require('debug')('app:main');
 
 const { Config } = require('./src/config/config');
@@ -9,7 +10,9 @@ const app = express();
 
 //Midlewares
 app.use(express.json());
+app.use(cors());
 
+//Routes
 IndexAPI(app);
 PersonalBudgetAPI(app);
 NotFoundAPI(app);
